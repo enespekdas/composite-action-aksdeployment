@@ -31,9 +31,7 @@ runs:
       with:
         kubeconfig: ${{ inputs.KUBE_CONFIG }}
     - name: Run Kubectl Command
-      run: kubectl create secret generic project-kubecfg --from-file=~/.tmpfile.json -n default
+      run: kubectl get node
       shell: bash
-    - name: Run Helm Command
-      run: 'helm upgrade -i -f charts/values.yaml ratings-web-test --values charts/values-test.yaml charts/ -n ratings-app-test'
-      shell: bash
+    
       
