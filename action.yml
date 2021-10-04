@@ -1,0 +1,35 @@
+name: 'The image deploy to AKS'
+description: ' AKS deployment actions.'
+inputs:
+  REGISTRY:  # path
+    description: 'Project Registery '
+    required: true
+    default: 'quay.io'
+  USER_NAME:  # path
+      description: 'Registery Username '
+      required: true
+      default: 'swoturkey'
+  IMAGE_NAME:  # path
+      description: 'Registery Image Name '
+      required: true
+      default: 'swoturkey/ratings-web'
+  KUBE_CONFIG:  # path  
+      description: 'Github get Token '
+      required: true
+      default: 'dd'
+outputs:
+  Result: 
+    description: "Aks Result"
+    value: "Aks Deployment finished."
+runs:
+  using: "composite"
+  steps: 
+    - name: Repository Files are downloading
+      uses: actions/checkout@v2
+    - name: Set context for Kubernetes 
+      uses: Azure/k8s-set-context@v1
+      with:
+        kubeconfig: ${{ inputs.KUBE_CONFIG }}
+    - name: Run Helm Command
+      run: 'helm upgrade -i -f charts/values.yaml ratings-web-test --values charts/values-test.yaml charts/ -n ratings-app-test'
+      shell: bash
