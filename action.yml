@@ -13,8 +13,12 @@ inputs:
       description: 'Registery Image Name '
       required: true
       default: 'swoturkey/ratings-web'
-  KUBE_CONFIG:  # path  
-      description: 'Github get Token '
+  K8S_URL:  # path  
+      description: 'AKS k8s url kubectl config view --minify -o "jsonpath={.clusters[0].cluster.server}" '
+      required: true
+      default: 'dd'
+  K8S_SECRET:
+      description: 'asdas '
       required: true
       default: 'dd'
 outputs:
@@ -25,18 +29,13 @@ runs:
   
   using: "composite"
   steps:
-      
-    - name: Repository Files are downloading
-      uses: actions/checkout@v2
-    
-    - name: Set context for Kubernetes 
-      uses: Azure/k8s-set-context@v1
-      with:
-        method: kubeconfig
-        kubeconfig : ${{ inputs.KUBE_CONFIG }}
-        
-    - name: Run Kubectl Command
-      run: kubectl get node
-      shell: bash
-    
-      
+      - uses: azure/k8s-set-context@v1
+        with:
+         method: service-account
+         k8s-url: ${{inputs.K8S_URL}}
+         k8s-secret: ${{ inputs.K8S_SECRET }}
+        id: setcontext
+
+      - name: get nodes
+        run: kubectl get nodes
+        shell: bash
