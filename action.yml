@@ -35,7 +35,7 @@ runs:
     - name: Set context for Kubernetes 
       uses: Azure/k8s-set-context@v1
       with:
-        kubeconfig: ${{ ./KUBE_CONFIG }}
+        kubeconfig: ${{ KUBE_CONFIG }}
     - name: Run Kubectl Command
       run: kubectl get node
       shell: bash
