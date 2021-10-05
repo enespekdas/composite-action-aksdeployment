@@ -26,16 +26,11 @@ runs:
   steps: 
     - name: Repository Files are downloading
       uses: actions/checkout@v2
-    - name: echo kubeconfig 
-      run: echo ${{inputs.KUBE_CONFIG}} > KUBE_CONFIG
-      shell: bash
-    - name : cat KUBE_CONFIG
-      run:  cat KUBE_CONFIG
-      shell: bash
+    
     - name: Set context for Kubernetes 
       uses: Azure/k8s-set-context@v1
       with:
-        kubeconfig: ${{ KUBE_CONFIG }}
+        kubeconfig: ${{ inputs.KUBE_CONFIG }}
     - name: Run Kubectl Command
       run: kubectl get node
       shell: bash
