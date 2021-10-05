@@ -22,15 +22,19 @@ outputs:
     description: "Aks Result"
     value: "Aks Deployment finished."
 runs:
+  
   using: "composite"
-  steps: 
+  steps:
+      
     - name: Repository Files are downloading
       uses: actions/checkout@v2
     
     - name: Set context for Kubernetes 
       uses: Azure/k8s-set-context@v1
       with:
-        kubeconfig: ${{ inputs.KUBE_CONFIG }}
+        method: kubeconfig
+        kubeconfig : ${{ inputs.KUBE_CONFIG }}
+        
     - name: Run Kubectl Command
       run: kubectl get node
       shell: bash
