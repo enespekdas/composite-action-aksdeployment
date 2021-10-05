@@ -35,7 +35,9 @@ runs:
          k8s-url: ${{inputs.K8S_URL}}
          k8s-secret: ${{ inputs.K8S_SECRET }}
         id: setcontext
-
       - name: get nodes
         run: kubectl get nodes
+        shell: bash
+      - name: Run Helm Command
+        run: 'helm upgrade -i -f charts/values.yaml ratings-web-prod --values charts/values-prod.yaml charts/ -n default'
         shell: bash
